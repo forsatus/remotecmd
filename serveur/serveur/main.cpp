@@ -21,12 +21,17 @@ int main() {
 	sin.sin_port = portDuServeur;
 	bind(sock, (SOCKADDR *)&sin, sizeof(sin));
 	listen(sock, 0);
+	char buffer[255];
 	while (true) {
 		int sinsize = sizeof(csin);
 		if ((csock = accept(sock, (SOCKADDR *)&csin, &sinsize)) != INVALID_SOCKET) {
 			cout << "Client connecte" << endl;
+			int n = recv(csock, buffer, sizeof(buffer), 0);
+			buffer[n] = '\0';
+			string nomDuPcClient = buffer;
 			while (true)
 			{
+				cout << nomDuPcClient << " : ";
 				string paquet;
 				getline(cin, paquet);
 				send(csock, paquet.c_str(), paquet.size() + 1, 0);
