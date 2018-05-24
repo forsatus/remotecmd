@@ -2,40 +2,30 @@
 #include <string>
 #include <winsock2.h>
 #pragma comment(lib, "ws2_32.lib")
-#pragma warning(disable:4996)
+#pragma warning(disable : 4996)
 
 using namespace std;
 
-const char* ipDuServeur = "127.0.0.1";
-int portDuServeur = 6643;
+unsigned long ipDuServeur = inet_addr("127.0.0.1");
+u_short portDuServeur = htons(6643);
 
-int main()
-{
-	WSADATA WSAData;
-	WSAStartup(MAKEWORD(2, 0), &WSAData);
-	//
-	SOCKET sock;
-	SOCKADDR_IN sin;
-	sin.sin_addr.s_addr = inet_addr(ipDuServeur);
-	sin.sin_family = AF_INET;
-	sin.sin_port = htons(portDuServeur);
-	sock = socket(AF_INET, SOCK_STREAM, 0);
-	bind(sock, (SOCKADDR *)&sin, sizeof(sin));
-	if (connect(sock, (SOCKADDR *)&sin, sizeof(sin)) == 0)
-	{
-
-		while (true)
-		{
-			char buffer[255];
-			int etatDuPaquetRecu = recv(sock, buffer, sizeof(buffer), 0);
-			if (etatDuPaquetRecu != SOCKET_ERROR && etatDuPaquetRecu > 0)
-			{
-				cout << buffer << endl;
-			}
-
-		}
-	}
-	//
-	WSACleanup();
-	return 0;
+int main() {
+  WSADATA WSAData;
+  SOCKET socketServeur;
+  SOCKADDR_IN sin;
+  char buffer[255];
+  WSAStartup(MAKEWORD(2, 0), &WSAData);
+  socketServeur = socket(AF_INET, SOCK_STREAM, 0);
+  sin.sin_addr.s_addr = ipDuServeur;
+  sin.sin_family = AF_INET;
+  sin.sin_port = portDuServeur;
+  connect(socketServeur, (SOCKADDR *)&sin, sizeof(sin));
+  
+  int n = recv(socketServeur, buffer, sizeof(buffer), 0);
+  buffer[n] = '\0';
+  cout << buffer << endl;
+  closesocket(socketServeur);
+  WSACleanup();
+  system("pause");
+  return 0;
 }
