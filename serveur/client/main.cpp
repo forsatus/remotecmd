@@ -20,10 +20,12 @@ int main() {
 	sin.sin_family = AF_INET;
 	sin.sin_port = portDuServeur;
 	connect(socketServeur, (SOCKADDR *)&sin, sizeof(sin));
-
-	int n = recv(socketServeur, buffer, sizeof(buffer), 0);
-	buffer[n] = '\0';
-	cout << buffer << endl;
+	while (true)
+	{
+		int n = recv(socketServeur, buffer, sizeof(buffer), 0);
+		buffer[n] = '\0';
+		cout << buffer << endl;
+	}
 	closesocket(socketServeur);
 	WSACleanup();
 	system("pause");
