@@ -10,6 +10,7 @@ unsigned long ipDuServeur = inet_addr("127.0.0.1");
 u_short portDuServeur = htons(6643);
 
 int main() {
+  SetConsoleOutputCP(65000);
   WSADATA WSAData;
   SOCKET socketServeur;
   SOCKADDR_IN sin;
