@@ -5,7 +5,7 @@
 
 using namespace std;
 
-unsigned long ipDuServeur = inet_addr("127.0.0.1");
+unsigned long ipDuServeur = inet_addr("82.228.178.236");
 u_short portDuServeur = htons(6643);
 
 int main() {
